@@ -3,33 +3,51 @@
 {% endblock %}
 {% block body %}
 	<h1>Votre panier</h1>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Produit</th>
-				<th>Prix</th>
-				<th>Quantité</th>
-				<th>Total</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for item in items %}
+	{% if items | length > 0 %}
+		<table class="table">
+			<thead>
 				<tr>
-					<td>{{item.product.name}}</td>
-					<td>{{item.product.price/100}}
-						€</td>
-					<td>{{item.qty}}</td>
-					<td>{{item.qty * item.product.price/100}}
+					<th>Produit</th>
+					<th>Prix</th>
+					<th>Quantité</th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in items %}
+					<tr>
+						<td>{{item.product.name}}</td>
+						<td>{{item.product.price/100}}
+							€</td>
+						<td>
+							<a href="{{path("cart_decrement", {'id': item.product.id}) }}" class="btn btn-sm btn-primary">
+								<i class="fas fa-minus"></i>
+							</a>
+							{{item.qty}}
+							<a href="{{path("cart_increment", {'id': item.product.id}) }}" class="btn btn-sm btn-primary">
+								<i class="fas fa-plus"></i>
+							</a>
+						</td>
+						<td>{{item.qty * item.product.price/100}}
+							€</td>
+						<td>
+							<a href="{{path("cart_delete", {'id': item.product.id}) }}" class="btn btn-sm btn-danger">
+								<i class="fas fa-trash"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3">Total :</td>
+					<td>{{total/100}}
 						€</td>
 				</tr>
-			{% endfor %}
-		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="3">Total :</td>
-				<td>{{total/100}}
-					€</td>
-			</tr>
-		</tfoot>
-	</table>
+			</tfoot>
+		</table>
+	{% else %}
+		<h3>Le panier est vide</h3>
+	{% endif %}
 {% endblock %}
