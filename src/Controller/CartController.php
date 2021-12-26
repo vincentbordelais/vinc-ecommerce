@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Cart\CartService;
+use App\Form\CartConfirmationType;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +23,7 @@ class CartController extends AbstractController
 
     /**
      * @Route("/cart/add/{id}", name="cart_add", requirements={"id":"\d+"})
+     * Permet d'ajouter un produit au panier.
      */
     public function add($id, SessionInterface $session, ProductRepository $productRepository, CartService $cartService): Response
     {
@@ -42,9 +44,12 @@ class CartController extends AbstractController
 
     /**
      * @Route("/cart", name="cart_show")
+     * Affiche la liste des commandes et le formulaire d'addresse.
      */
     public function show(SessionInterface $session, ProductRepository $productRepository)
     {
+        $form = $this->createForm(CartConfirmationType::class);
+
         $cart = $session->get('cart', []);
         $detailedCart = [];
         $total = 0;
@@ -59,12 +64,14 @@ class CartController extends AbstractController
         // dd($detailedCart);
         return $this->render('cart/index.html.twig', [
             'items' => $detailedCart,
-            'total' => $total
+            'total' => $total,
+            'confirmationForm' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/cart/delete/{id}", name="cart_delete", requirements={"id":"\d+"})
+     * Permet de supprimer une ligne de commande.
      *
      * @param mixed $id
      */
@@ -81,6 +88,7 @@ class CartController extends AbstractController
 
     /**
      * @Route("/cart/increment/{id}", name="cart_increment", requirements={"id":"\d+"})
+     * Permet d'incrémenter de 1 la quantité d'un produit.
      *
      * @param mixed $id
      */
@@ -97,6 +105,7 @@ class CartController extends AbstractController
 
     /**
      * @Route("/cart/decrement/{id}", name="cart_decrement", requirements={"id":"\d+"})
+     * Permet de décrémenter de 1 la quantité d'un produit.
      *
      * @param mixed $id
      */

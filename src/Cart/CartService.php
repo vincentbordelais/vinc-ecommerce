@@ -59,4 +59,62 @@ class CartService
         }
         $this->session->set('cart', $cart);
     }
+
+    public function empty()
+    {
+        $this->session->set('cart', []);
+    }
+
+    // public function getTotal(): int
+    // {
+    //     $total = 0;
+
+    //     // foreach ($this->session->get('cart', []) as $id => $qty) {
+    //     foreach ($this->getCart() as $id => $qty) {
+    //         $product = $this->productRepository->find($id);
+
+    //         if (!$product) {
+    //             continue;
+    //         }
+
+    //         $total += $product->getPrice() * $qty;
+    //     }
+
+    //     return $total;
+    // }
+
+    // /**
+    //  * @return CartItem[] // aide vs code à comprendre que la fonction renvoie un tableau de classes CartItem
+    //  */
+    // public function getDetailedCartItems(): array
+    // {
+    //     // dd($session->get('cart'));
+    //         $detailedCart = []; // [ 12=>['produit'=>..., 'quantity'=>qté] ]
+    //         // foreach ($this->session->get('cart', []) as $id => $qty) {
+    //         foreach ($this->getCart() as $id => $qty) {
+    //             $product = $this->productRepository->find($id);
+
+    //             if (!$product) {
+    //                 continue;
+    //             }
+
+    //             // $detailedCart[] = [
+    //             //     'product' => $product,
+    //             //     'qty' => $qty,
+    //             // ];
+    //             $detailedCart[] = new CartItem($product, $qty);
+    //         }
+    //     // dd($detailCart);
+    //     return $detailedCart;
+    // }
+
+    // protected function getCart(): array
+    // {
+    //     return $this->session->get('cart', []);
+    // }
+
+    // protected function saveCart(array $cart)
+    // {
+    //     $this->session->set('cart', $cart);
+    // }
 }

@@ -15,8 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/{slug}", name="product_category")
-     *
+     * @Route("/{slug}", name="product_category", priority=-1)
+     * 
      * @param mixed $slug
      */
     public function category($slug, CategoryRepository $categoryRepository)
@@ -25,7 +25,8 @@ class ProductController extends AbstractController
         // dd($category);
         if (!$category) {
             // throw new NotFoundHttpException("La catégorie demandée n'existe pas");
-            throw $this->createNotFoundException("La catégorie demandée n'existe pas"); //on fera plus tard une page d'erreur personnalisée
+            throw $this->createNotFoundException("La catégorie demandée n'existe pas");
+            // on fera plus tard une page d'erreur personnalisée
         }
         return $this->render('product/category.html.twig', [
             'slug' => $slug,
@@ -33,7 +34,7 @@ class ProductController extends AbstractController
         ]);
     }
     /**
-     * @Route("/{category_slug}/{slug}", name="product_show")
+     * @Route("/{category_slug}/{slug}", name="product_show", priority=-1)
      *
      * @param mixed $slug
      */
